@@ -1,5 +1,8 @@
-import app from "./app";
+import "./setup";
+import app, { init } from "./app";
 
-app.listen(4000, () => {
-  console.log(`Server is listening on port 4000.`);
+init().then(() => {
+    app.listen(4000, () => {
+        console.log("Server is listening on port 4000");
+    });
 });
