@@ -1,6 +1,6 @@
 import supertest from "supertest";
 import app, { init } from "../../src/app";
-import { getConnection } from "typeorm";
+import { Any, getConnection } from "typeorm";
 import { createDiscipline } from "../factories/disciplineFactory";
 import { clearDatabase } from "../utils/database";
 
@@ -18,12 +18,16 @@ afterAll(async () => {
 
 describe("GET /disciplines", () => {
     it("should answer with disciplines array and status 200", async () => {
-        const discipline = await createDiscipline();
+        const discipline = await createDiscipline({
+            name: "Cálculo II",
+            semester: 2,
+        });
         const response = await supertest(app).get("/disciplines");
         expect(response.body).toEqual(
             expect.arrayContaining([
                 expect.objectContaining({
                     name: discipline.name,
+                    semester: discipline.semester,
                 }),
             ])
         );
@@ -33,13 +37,17 @@ describe("GET /disciplines", () => {
 
 describe("GET /disciplines/:id", () => {
     it("should answer with discipline object and status 200", async () => {
-        const discipline = await createDiscipline();
+        const discipline = await createDiscipline({
+            name: "Cálculo II",
+            semester: 2,
+        });
         const id = 1;
         const response = await supertest(app).get(`/disciplines/${id}`);
         expect(response.body).toEqual(
             expect.arrayContaining([
                 expect.objectContaining({
                     name: discipline.name,
+                    semester: discipline.semester,
                 }),
             ])
         );

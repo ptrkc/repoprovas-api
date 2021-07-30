@@ -7,4 +7,7 @@ export default class Discipline {
 
     @Column()
     name: string;
+
+    @Column()
+    semester: number;
 }
