@@ -1,4 +1,11 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+import {
+    Entity,
+    PrimaryGeneratedColumn,
+    Column,
+    ManyToMany,
+    JoinTable,
+} from "typeorm";
+import Professor from "./Professor";
 
 @Entity("disciplines")
 export default class Discipline {
@@ -10,4 +17,8 @@ export default class Discipline {
 
     @Column()
     semester: number;
+
+    @ManyToMany(() => Professor, { cascade: true })
+    @JoinTable()
+    professors: Professor[];
 }

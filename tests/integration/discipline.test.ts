@@ -1,8 +1,8 @@
 import supertest from "supertest";
 import app, { init } from "../../src/app";
-import { Any, getConnection } from "typeorm";
-import { createDiscipline } from "../factories/disciplineFactory";
+import { getConnection } from "typeorm";
 import { clearDatabase } from "../utils/database";
+import createDisciplineProfessor from "../factories/disciplineProfessorFactory";
 
 beforeAll(async () => {
     await init();
@@ -18,16 +18,13 @@ afterAll(async () => {
 
 describe("GET /disciplines", () => {
     it("should answer with disciplines array and status 200", async () => {
-        const discipline = await createDiscipline({
-            name: "Cálculo II",
-            semester: 2,
-        });
+        await createDisciplineProfessor();
         const response = await supertest(app).get("/disciplines");
         expect(response.body).toEqual(
             expect.arrayContaining([
                 expect.objectContaining({
-                    name: discipline.name,
-                    semester: discipline.semester,
+                    name: expect.any(String),
+                    semester: expect.any(Number),
                 }),
             ])
         );
@@ -37,17 +34,14 @@ describe("GET /disciplines", () => {
 
 describe("GET /disciplines/:id", () => {
     it("should answer with discipline object and status 200", async () => {
-        const discipline = await createDiscipline({
-            name: "Cálculo II",
-            semester: 2,
-        });
+        await createDisciplineProfessor();
         const id = 1;
         const response = await supertest(app).get(`/disciplines/${id}`);
         expect(response.body).toEqual(
             expect.arrayContaining([
                 expect.objectContaining({
-                    name: discipline.name,
-                    semester: discipline.semester,
+                    name: expect.any(String),
+                    semester: expect.any(Number),
                 }),
             ])
         );

@@ -1,8 +1,8 @@
 import supertest from "supertest";
 import app, { init } from "../../src/app";
 import { getConnection } from "typeorm";
-import { createProfessor } from "../factories/professorFactory";
 import { clearDatabase } from "../utils/database";
+import createDisciplineProfessor from "../factories/disciplineProfessorFactory";
 
 beforeAll(async () => {
     await init();
@@ -18,12 +18,12 @@ afterAll(async () => {
 
 describe("GET /professors", () => {
     it("should answer with professors array and status 200", async () => {
-        const professor = await createProfessor();
+        await createDisciplineProfessor();
         const response = await supertest(app).get("/professors");
         expect(response.body).toEqual(
             expect.arrayContaining([
                 expect.objectContaining({
-                    name: professor.name,
+                    name: expect.any(String),
                 }),
             ])
         );
@@ -33,13 +33,13 @@ describe("GET /professors", () => {
 
 describe("GET /professors/:id", () => {
     it("should answer with professor object and status 200", async () => {
-        const professor = await createProfessor();
+        await createDisciplineProfessor();
         const id = 1;
         const response = await supertest(app).get(`/professors/${id}`);
         expect(response.body).toEqual(
             expect.arrayContaining([
                 expect.objectContaining({
-                    name: professor.name,
+                    name: expect.any(String),
                 }),
             ])
         );
