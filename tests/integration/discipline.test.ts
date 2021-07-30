@@ -23,8 +23,15 @@ describe("GET /disciplines", () => {
         expect(response.body).toEqual(
             expect.arrayContaining([
                 expect.objectContaining({
+                    id: expect.any(Number),
                     name: expect.any(String),
                     semester: expect.any(Number),
+                    professors: expect.arrayContaining([
+                        expect.objectContaining({
+                            id: expect.any(Number),
+                            name: expect.any(String),
+                        }),
+                    ]),
                 }),
             ])
         );

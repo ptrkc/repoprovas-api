@@ -3,7 +3,7 @@ import { getRepository } from "typeorm";
 
 export async function find() {
     const repository = getRepository(Discipline);
-    const discipline = await repository.find();
+    const discipline = await repository.find({ relations: ["professors"] });
     return discipline;
 }
 
