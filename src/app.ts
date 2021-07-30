@@ -13,10 +13,6 @@ app.use("/disciplines", disciplines);
 
 app.use("/professors", professors);
 
-app.get("/test", (req, res) => {
-    res.send("OK!");
-});
-
 export default app;
 
 export async function init() {
