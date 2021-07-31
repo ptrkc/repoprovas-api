@@ -6,4 +6,6 @@ discipline.get("/", disciplineController.find);
 
 discipline.get("/:id", disciplineController.findById);
 
+discipline.get("/:id/exams", disciplineController.findExamsByDisciplineId);
+
 export default discipline;
