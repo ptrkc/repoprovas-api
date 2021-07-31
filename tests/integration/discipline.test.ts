@@ -3,6 +3,7 @@ import app, { init } from "../../src/app";
 import { getConnection } from "typeorm";
 import { clearDatabase } from "../utils/database";
 import createDisciplineProfessor from "../factories/disciplineProfessorFactory";
+import createExam from "../factories/examFactory";
 
 beforeAll(async () => {
     await init();
@@ -65,3 +66,31 @@ describe("GET /disciplines/:id", () => {
         expect(response.status).toBe(400);
     });
 });
+
+// describe("GET /disciplines/:id/exams", () => {
+//     it("should answer with exams array and status 200", async () => {
+//         await createExam();
+//         const id = 1;
+//         const response = await supertest(app).get(`/disciplines/${id}/exams`);
+//         // expect(response.body).toEqual(
+//         //     expect.arrayContaining([
+//         //         expect.objectContaining({
+//         //             name: expect.any(String),
+//         //             semester: expect.any(Number),
+//         //         }),
+//         //     ])
+//         // );
+//         console.log(response.body);
+//         expect(response.status).toBe(200);
+//     });
+//     it("should answer with 404 if id does not exists", async () => {
+//         const id = 1;
+//         const response = await supertest(app).get(`/disciplines/${id}/exams`);
+//         expect(response.status).toBe(404);
+//     });
+//     it("should answer with 400 if id is NaN", async () => {
+//         const id = "nope";
+//         const response = await supertest(app).get(`/disciplines/${id}/exams`);
+//         expect(response.status).toBe(400);
+//     });
+// });

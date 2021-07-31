@@ -3,8 +3,10 @@ import {
     PrimaryGeneratedColumn,
     Column,
     ManyToMany,
+    OneToMany,
     JoinTable,
 } from "typeorm";
+import Exam from "./Exam";
 import Professor from "./Professor";
 
 @Entity("disciplines")
@@ -18,7 +20,10 @@ export default class Discipline {
     @Column()
     semester: number;
 
-    @ManyToMany(() => Professor, { cascade: true })
+    @ManyToMany(() => Professor)
     @JoinTable()
     professors: Professor[];
+
+    @OneToMany(() => Exam, (exam) => exam.discipline)
+    exams: Exam[];
 }
