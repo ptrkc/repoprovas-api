@@ -1,9 +1,4 @@
-import { getRepository, getConnection } from "typeorm";
-
-import Professor from "../../src/entities/Professor";
-import Discipline from "../../src/entities/Discipline";
-import Exam from "../../src/entities/Exam";
-import ExamType from "../../src/entities/ExamType";
+import { getConnection } from "typeorm";
 
 export async function clearDatabase() {
     const tables = [
