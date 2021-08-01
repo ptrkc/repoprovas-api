@@ -4,7 +4,15 @@ import { getRepository } from "typeorm";
 
 export async function find() {
     const repository = getRepository(Professor);
-    const professors = await repository.find();
+    const professors = await repository
+        .createQueryBuilder("professors")
+        .leftJoin("professors.exams", "exams")
+        .select("professors.id", "id")
+        .addSelect("professors.name", "name")
+        .addSelect("COUNT(DISTINCT(exams.id)) as exams")
+        .groupBy("professors.id")
+        .orderBy("professors.name")
+        .getRawMany();
     return professors;
 }
 

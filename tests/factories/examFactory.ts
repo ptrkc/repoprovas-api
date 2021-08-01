@@ -18,13 +18,13 @@ export default async function createExam() {
     ]);
 
     const discipline1 = new Discipline();
-    discipline1.name = faker.company.bs();
-    discipline1.semester = Math.floor(Math.random() * 10 + 1);
+    discipline1.name = faker.company.bs().toUpperCase();
+    discipline1.semester = Math.floor(Math.random() * 8 + 1);
     discipline1.professors = [professors[0], professors[1]];
 
     const discipline2 = new Discipline();
-    discipline2.name = faker.company.bs();
-    discipline2.semester = Math.floor(Math.random() * 10 + 1);
+    discipline2.name = faker.company.bs().toUpperCase();
+    discipline2.semester = Math.floor(Math.random() * 8 + 1);
     discipline2.professors = [professors[0]];
 
     const disciplines = await getConnection().manager.save([

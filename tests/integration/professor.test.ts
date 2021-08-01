@@ -69,7 +69,6 @@ describe("GET /professors/:id/exams", () => {
                 professor: expect.any(String),
             })
         );
-        console.log(response.body);
         expect(response.status).toBe(200);
     });
     it("should answer with 404 if id does not exists", async () => {

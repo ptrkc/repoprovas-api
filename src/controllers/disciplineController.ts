@@ -44,3 +44,12 @@ export async function find(req: Request, res: Response) {
         res.sendStatus(500);
     }
 }
+export async function findWithProfessors(req: Request, res: Response) {
+    try {
+        const result = await disciplineService.findWithProfessors();
+        res.send(result);
+    } catch (e) {
+        console.log(e);
+        res.sendStatus(500);
+    }
+}

@@ -27,6 +27,24 @@ describe("GET /disciplines", () => {
                     id: expect.any(Number),
                     name: expect.any(String),
                     semester: expect.any(Number),
+                    exams: expect.any(String),
+                }),
+            ])
+        );
+        expect(response.status).toBe(200);
+    });
+});
+
+describe("GET /disciplines/professors", () => {
+    it("should answer with disciplines array and status 200", async () => {
+        await createDisciplineProfessor();
+        const response = await supertest(app).get("/disciplines/professors");
+        expect(response.body).toEqual(
+            expect.arrayContaining([
+                expect.objectContaining({
+                    id: expect.any(Number),
+                    name: expect.any(String),
+                    semester: expect.any(Number),
                     professors: expect.arrayContaining([
                         expect.objectContaining({
                             id: expect.any(Number),
@@ -78,7 +96,6 @@ describe("GET /disciplines/:id/exams", () => {
                 discipline: expect.any(String),
             })
         );
-        console.log(response.body);
         expect(response.status).toBe(200);
     });
     it("should answer with 404 if id does not exists", async () => {
