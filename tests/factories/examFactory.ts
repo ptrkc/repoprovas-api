@@ -19,12 +19,12 @@ export default async function createExam() {
 
     const discipline1 = new Discipline();
     discipline1.name = faker.company.bs().toUpperCase();
-    discipline1.semester = Math.floor(Math.random() * 8 + 1);
+    discipline1.semester = Math.floor(Math.random() * 9);
     discipline1.professors = [professors[0], professors[1]];
 
     const discipline2 = new Discipline();
     discipline2.name = faker.company.bs().toUpperCase();
-    discipline2.semester = Math.floor(Math.random() * 8 + 1);
+    discipline2.semester = Math.floor(Math.random() * 9);
     discipline2.professors = [professors[0]];
 
     const disciplines = await getConnection().manager.save([
@@ -33,19 +33,25 @@ export default async function createExam() {
     ]);
 
     const typesArray = ["P1", "P2", "2ch", "Outras"];
-
     const examType1 = new ExamType();
-    examType1.name = typesArray[Math.floor(Math.random() * 4)];
-
+    examType1.name = typesArray[0];
     const examType2 = new ExamType();
-    examType2.name = typesArray[Math.floor(Math.random() * 4)];
-
-    const types = await getConnection().manager.save([examType1, examType2]);
+    examType2.name = typesArray[1];
+    const examType3 = new ExamType();
+    examType3.name = typesArray[2];
+    const examType4 = new ExamType();
+    examType4.name = typesArray[3];
+    const types = await getConnection().manager.save([
+        examType1,
+        examType2,
+        examType3,
+        examType4,
+    ]);
 
     const exam1 = new Exam();
     exam1.year = 2018;
     exam1.semester = 2;
-    exam1.type = types[0];
+    exam1.type = types[Math.floor(Math.random() * 4)];
     exam1.discipline = disciplines[0];
     exam1.professor = professors[0];
     exam1.url = "https://upload.com/exam123.pdf";
@@ -53,7 +59,7 @@ export default async function createExam() {
     const exam2 = new Exam();
     exam2.year = 2019;
     exam2.semester = 1;
-    exam2.type = types[1];
+    exam2.type = types[Math.floor(Math.random() * 4)];
     exam2.discipline = disciplines[1];
     exam2.professor = professors[0];
     exam2.url = "https://upload.com/exam1234.pdf";
@@ -61,9 +67,9 @@ export default async function createExam() {
     const exam3 = new Exam();
     exam3.year = 2019;
     exam3.semester = 1;
-    exam3.type = types[3];
+    exam3.type = types[Math.floor(Math.random() * 4)];
     exam3.discipline = disciplines[1];
-    exam3.professor = professors[1];
+    exam3.professor = professors[0];
     exam3.url = "https://upload.com/exam1234.pdf";
 
     await getConnection().manager.save([exam1, exam2, exam3]);
