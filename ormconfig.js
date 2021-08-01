@@ -1,5 +1,3 @@
-require("dotenv").config();
-
 module.exports = {
     type: "postgres",
     url: process.env.DATABASE_URL,
@@ -9,5 +7,10 @@ module.exports = {
     cli: {
         migrationsDir: "src/migrations",
         entitiesDir: "dist/entities/*.js",
+    },
+    extra: {
+        ssl: {
+            rejectUnauthorized: false,
+        },
     },
 };
