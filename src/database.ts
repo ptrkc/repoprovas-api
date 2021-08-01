@@ -15,7 +15,7 @@ export default async function connect() {
         url: process.env.DATABASE_URL,
         entities: [
             `${
-                process.env.NODE_ENV === "production" ? "dist" : "src"
+                process.env.NODE_ENV === "production" ? "dist/src" : "src"
             }/entities/*.*`,
         ],
         ssl: process.env.NODE_ENV === "production",
