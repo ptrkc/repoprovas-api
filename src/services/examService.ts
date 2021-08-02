@@ -71,6 +71,11 @@ export async function findByDisciplineId(id: number) {
                 id: id,
             },
         },
+        order: {
+            professor: "DESC",
+            year: "DESC",
+            semester: "DESC",
+        },
     });
     return { discipline: discipline[0].name, exams };
 }
@@ -84,6 +89,11 @@ export async function findByProfessorId(id: number) {
             professor: {
                 id: id,
             },
+        },
+        order: {
+            discipline: "DESC",
+            year: "DESC",
+            semester: "DESC",
         },
     });
     return { professor: professor[0].name, exams };

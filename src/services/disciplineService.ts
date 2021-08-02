@@ -1,10 +1,8 @@
 import Discipline from "../entities/Discipline";
 import { getRepository } from "typeorm";
-import Exam from "../entities/Exam";
 
 export async function find() {
-    const repository = getRepository(Discipline);
-    const disciplines = await repository
+    const disciplines = await getRepository(Discipline)
         .createQueryBuilder("disciplines")
         .leftJoin("disciplines.exams", "exams")
         .select("disciplines.id", "id")
@@ -18,8 +16,7 @@ export async function find() {
 }
 
 export async function findWithProfessors() {
-    const repository = getRepository(Discipline);
-    const disciplines = await repository.find({
+    const disciplines = await getRepository(Discipline).find({
         relations: ["professors"],
         order: {
             name: "ASC",
@@ -29,8 +26,7 @@ export async function findWithProfessors() {
 }
 
 export async function findById(id: number) {
-    const repository = getRepository(Discipline);
-    const discipline = await repository.find({ id });
+    const discipline = await getRepository(Discipline).find({ id });
     if (!discipline.length) return 404;
     return discipline;
 }
