@@ -2,22 +2,33 @@ import { getRepository } from "typeorm";
 import Discipline from "../entities/Discipline";
 import Exam from "../entities/Exam";
 import Professor from "../entities/Professor";
-
-interface NewExam {
+import { validateNewExam } from "../middlewares/validateNewExam";
+export interface NewExam {
     disciplineId: number;
     professorId: number;
     year: number;
     semester: 1 | 2;
-    typeId: 1 | 2 | 3 | 4;
+    typeId: 1 | 2 | 3 | 4 | 5;
     examURL: string;
 }
+
 export async function post(newExam: NewExam) {
     try {
-        //verificar o objeto
+        if (!validateNewExam(newExam)) return 400;
         const { disciplineId, professorId, year, semester, typeId, examURL } =
             newExam;
-        //verificar na materia se o prof é valido
-        await getRepository(Exam)
+        const discipline = await getRepository(Discipline).find({
+            relations: ["professors"],
+            where: {
+                id: disciplineId,
+            },
+        });
+        if (!discipline.length) return 400;
+        const validProfessor = discipline[0].professors.find(
+            (p) => p.id === professorId
+        );
+        if (!validProfessor) return 400;
+        const exam = await getRepository(Exam)
             .createQueryBuilder()
             .insert()
             .into(Exam)
@@ -28,14 +39,14 @@ export async function post(newExam: NewExam) {
                     type: { id: typeId },
                     professor: { id: professorId },
                     discipline: { id: disciplineId },
-                    url: examURL,
+                    url: examURL.trim(),
                 },
             ])
             .execute();
-        return;
+        return exam.identifiers;
     } catch (e) {
         console.log(e);
-        return 400;
+        return 500;
     }
 }
 
@@ -43,9 +54,7 @@ export async function findById(id: number) {
     const exam = await getRepository(Exam).find({
         relations: ["type", "professor", "discipline"],
         where: {
-            exam: {
-                id: id,
-            },
+            id: id,
         },
     });
     if (!exam.length) return 404;

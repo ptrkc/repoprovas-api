@@ -8,9 +8,9 @@ export async function clearDatabase() {
         "disciplines",
         "disciplines_professors_professors",
     ];
+    let query = "";
     for (const table of tables) {
-        await getConnection().query(
-            `TRUNCATE "${table}" RESTART IDENTITY CASCADE`
-        );
+        query += `TRUNCATE "${table}" RESTART IDENTITY CASCADE;`;
     }
+    await getConnection().query(query);
 }

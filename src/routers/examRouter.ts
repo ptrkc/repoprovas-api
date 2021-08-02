@@ -4,6 +4,6 @@ const exam = express.Router();
 
 exam.post("/", examController.post);
 
-// exam.get("/:id", examController.findById);
+exam.get("/:id", examController.findById);
 
 export default exam;
