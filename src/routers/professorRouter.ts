@@ -6,6 +6,4 @@ professors.get("/", professorController.find);
 
 professors.get("/:id", professorController.findById);
 
-professors.get("/:id/exams", professorController.findExamsByProfessorId);
-
 export default professors;

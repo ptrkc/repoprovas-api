@@ -26,8 +26,7 @@ export async function findById(id: number) {
 export async function findExamsByProfessorId(id: number) {
     const professor = await findById(id);
     if (professor === 404) return 404;
-    const repository = getRepository(Exam);
-    const exams = await repository.find({
+    const exams = await getRepository(Exam).find({
         relations: ["type", "discipline"],
         where: {
             professor: {

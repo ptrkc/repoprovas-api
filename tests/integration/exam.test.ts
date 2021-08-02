@@ -5,6 +5,7 @@ import { clearDatabase } from "../utils/database";
 import typesFactory from "../factories/typesFactory";
 import Exam from "../../src/entities/Exam";
 import createDisciplineProfessor from "../factories/disciplineProfessorFactory";
+import createExam from "../factories/examFactory";
 
 beforeAll(async () => {
     await init();
@@ -44,6 +45,56 @@ describe("POST /exams", () => {
     });
     it("should answer with 400 if no body was provided", async () => {
         const response = await supertest(app).post(`/exams`);
+        expect(response.status).toBe(400);
+    });
+});
+
+describe("GET /exams/discipline/:id", () => {
+    it("should answer with exams array and status 200", async () => {
+        await createExam();
+        const id = 1;
+        const response = await supertest(app).get(`/exams/discipline/${id}`);
+        expect(response.body).toEqual(
+            expect.objectContaining({
+                exams: expect.any(Array),
+                discipline: expect.any(String),
+            })
+        );
+        expect(response.status).toBe(200);
+    });
+    it("should answer with 404 if id does not exists", async () => {
+        const id = 1;
+        const response = await supertest(app).get(`/exams/discipline/${id}`);
+        expect(response.status).toBe(404);
+    });
+    it("should answer with 400 if id is NaN", async () => {
+        const id = "nope";
+        const response = await supertest(app).get(`/exams/discipline/${id}`);
+        expect(response.status).toBe(400);
+    });
+});
+
+describe("GET /exams/professors/:id", () => {
+    it("should answer with exams array and status 200", async () => {
+        await createExam();
+        const id = 1;
+        const response = await supertest(app).get(`/exams/professor/${id}`);
+        expect(response.body).toEqual(
+            expect.objectContaining({
+                exams: expect.any(Array),
+                professor: expect.any(String),
+            })
+        );
+        expect(response.status).toBe(200);
+    });
+    it("should answer with 404 if id does not exists", async () => {
+        const id = 1;
+        const response = await supertest(app).get(`/exams/professor/${id}`);
+        expect(response.status).toBe(404);
+    });
+    it("should answer with 400 if id is NaN", async () => {
+        const id = "nope";
+        const response = await supertest(app).get(`/exams/professor/${id}`);
         expect(response.status).toBe(400);
     });
 });
